@@ -1,0 +1,10 @@
+
+
+
+
+
+
+
+
+
+php artisan make:model Category -m
