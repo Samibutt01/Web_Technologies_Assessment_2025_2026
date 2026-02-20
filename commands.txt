@@ -1,5 +1,20 @@
+For Creating Laravel project:
+Laravel new projectanyname
+react
+Laravel
+0
 
 
+
+GitHub settings:
+Create Repo in GitHub.
+copy repo folder url with add .git at end.
+open terminal in vscode where project folder.
+create git repo locally by git init
+add files to git by git add .
+git commit -am "message here"
+git remote add origin urlpastehere
+git push origin master
 
 
 
@@ -8,3 +23,5 @@
 
 
 php artisan make:model Category -m
+php artisan make:model Post -m
+php artisan make:model Comment -m
