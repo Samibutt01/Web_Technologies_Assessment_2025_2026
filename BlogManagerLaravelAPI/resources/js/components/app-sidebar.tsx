@@ -1,5 +1,5 @@
 import { Link } from '@inertiajs/react';
-import { BookOpen, Folder, LayoutGrid } from 'lucide-react';
+import { BookOpen, Folder, LayoutGrid, PenSquare, FolderPlus } from 'lucide-react';
 import { NavFooter } from '@/components/nav-footer';
 import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
@@ -15,14 +15,9 @@ import {
 import type { NavItem } from '@/types';
 import AppLogo from './app-logo';
 import { dashboard } from '@/routes';
+import {usePage} from '@inertiajs/react'
 
-const mainNavItems: NavItem[] = [
-    {
-        title: 'Dashboard',
-        href: dashboard(),
-        icon: LayoutGrid,
-    },
-];
+
 
 const footerNavItems: NavItem[] = [
     {
@@ -38,6 +33,29 @@ const footerNavItems: NavItem[] = [
 ];
 
 export function AppSidebar() {
+    const {auth} = usePage().props;
+    const user = auth.user as unknown as { id: number; name: string; role: 'admin' | 'user' } | null;
+
+    const mainNavItems: NavItem[] = user?.role==='admin'? [
+    {
+        title: 'Blogs',
+        href: '/admin/posts',
+        icon: PenSquare,
+    },
+    {
+        title: 'Categories',
+        href: '/admin/categories',
+        icon: FolderPlus,
+    },
+
+]
+: user?.role==='user'? [
+    {
+        title: 'Blogs',
+        href: '/posts',
+        icon: BookOpen,
+    },
+] : [];
     return (
         <Sidebar collapsible="icon" variant="inset">
             <SidebarHeader>
