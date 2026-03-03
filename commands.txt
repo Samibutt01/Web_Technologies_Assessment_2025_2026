@@ -25,3 +25,7 @@ git push origin master
 php artisan make:model Category -m
 php artisan make:model Post -m
 php artisan make:model Comment -m
+
+php artisan make:controller UserController --resource
+php artisan make:controller PostController --resource
+php artisan make:controller CategoryController --resource
