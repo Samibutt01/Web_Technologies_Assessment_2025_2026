@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Laravel\Fortify\Features;
+use App\Http\Controllers\CategoryController;
 
 Route::get('/', function () {
     return Inertia::render('welcome', [
@@ -14,4 +15,8 @@ Route::get('dashboard', function () {
     return Inertia::render('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::prefix('admin')->name('admin.')->group(function(){
+    Route::resource('categories',CategoryController::class)->except(['show']);
+});
 require __DIR__.'/settings.php';
+
