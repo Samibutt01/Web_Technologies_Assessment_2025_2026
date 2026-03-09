@@ -31,3 +31,9 @@ php artisan make:controller PostController --resource
 php artisan make:controller CategoryController --resource
 
 php artisan optimize
+
+
+
+npx shadcn@latest add table
+npx shadcn@latest add pagination
+npm install sonner

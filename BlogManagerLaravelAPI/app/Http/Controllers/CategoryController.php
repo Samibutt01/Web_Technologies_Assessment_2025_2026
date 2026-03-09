@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -12,10 +12,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return Inertia::render(
-            'admin/categories',
-            ['title' => 'Category']
-        );
+        $categories = Category::withCount('posts')->latest()->paginate(10);
+        return Inertia::render('admin/categories',['categories'=>$categories]);
     }
 
     /**
@@ -31,7 +29,12 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required|string|max:255|unique:categories',
+        ]);
+        Category::create($validated);
+        return redirect()->route('admin.categories.index')
+        ->with('success','Category Added Successfully');
     }
 
     /**
@@ -55,7 +58,14 @@ class CategoryController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $category = Category::findOrFail($id);
+        $validated = $request->validate([
+            'name' => 'required|string|max:255|unique:categories,name'.$id,
+        ]);
+        $category->update($validated);
+
+        return redirect()->route('admin.categories.index')
+        ->with('success','Category Updated Successfully');
     }
 
     /**
@@ -63,6 +73,17 @@ class CategoryController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $category = Category::findOrFail($id);
+        if($category->posts()->count()>0)
+            {
+                return redirect()->route('admin.categories.index')
+        ->with('error','Cannot Delete Category Because Posts Are Associated With It');
+
+            }
+        $category->delete();
+
+        return redirect()->route('admin.categories.index')
+        ->with('success','Category Deleted Successfully');
+
     }
 }
