@@ -37,3 +37,5 @@ php artisan optimize
 npx shadcn@latest add table
 npx shadcn@latest add pagination
 npm install sonner
+
+npm install ziggy-js

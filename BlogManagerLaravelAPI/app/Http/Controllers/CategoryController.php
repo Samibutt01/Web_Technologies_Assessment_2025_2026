@@ -60,7 +60,7 @@ class CategoryController extends Controller
     {
         $category = Category::findOrFail($id);
         $validated = $request->validate([
-            'name' => 'required|string|max:255|unique:categories,name'.$id,
+            'name' => 'required|string|max:255|unique:categories',
         ]);
         $category->update($validated);
 
