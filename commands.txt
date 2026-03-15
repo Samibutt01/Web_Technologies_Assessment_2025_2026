@@ -39,3 +39,7 @@ npx shadcn@latest add pagination
 npm install sonner
 
 npm install ziggy-js
+
+
+php artisan make:migration add_timestamps_to_categories_table --table=categories
+php artisan migrate

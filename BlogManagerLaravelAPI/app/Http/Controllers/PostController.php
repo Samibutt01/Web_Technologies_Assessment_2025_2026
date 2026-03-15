@@ -1,7 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\Category;
+use App\Models\Post;
+use Illuminate\Support\Str;
+use Carbon\Carbon;
+use Inertia\Inertia;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -11,7 +15,10 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        $posts = Post::withCount(['category','comments.user'])->withCount('comments')
+        ->latest()->paginate(10);
+        $categories = Category::all();
+        return Inertia::render('admin/posts',['categories'=>$categories,'posts'=>$posts]);
     }
 
     /**
@@ -27,7 +34,19 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'content' => 'required|string|max:255',
+            'category_id' => 'required|exists:categories,id',
+            'published_at' => 'nullable|date'
+        ]);
+        if($request->filled('published_at')){
+            $validated["published_at"]=Carbon::parse($request->published_at)->formate('Y-m-d H:i:s');
+        }
+        $validated['slug'] = Str::slug($request->title);
+        Post::create($validated);
+        return redirect()->route('admin.posts.index')
+        ->with('success','Post Added Successfully');
     }
 
     /**
@@ -51,7 +70,20 @@ class PostController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $post = Post::findOrFail($id);
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'content' => 'required|string|max:255',
+            'category_id' => 'required|exists:categories,id',
+            'published_at' => 'nullable|date'
+        ]);
+        if($request->filled('published_at')){
+            $validated["published_at"]=Carbon::parse($request->published_at)->formate('Y-m-d H:i:s');
+        }
+        $validated['slug'] = Str::slug($request->title);
+        $post::update($validated);
+        return redirect()->route('admin.posts.index')
+        ->with('success','Post Updated Successfully');
     }
 
     /**
@@ -59,6 +91,10 @@ class PostController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+       $post = Post::findOrFail($id);
+
+        $post::delete();
+        return redirect()->route('admin.posts.index')
+        ->with('success','Post Deleted Successfully');
     }
 }
