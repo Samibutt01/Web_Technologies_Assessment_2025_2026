@@ -15,7 +15,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::withCount(['category','comments.user'])->withCount('comments')
+        $posts = Post::with(['category','comments.user'])->withCount('comments')
         ->latest()->paginate(10);
         $categories = Category::all();
         return Inertia::render('admin/posts',['categories'=>$categories,'posts'=>$posts]);
@@ -41,7 +41,7 @@ class PostController extends Controller
             'published_at' => 'nullable|date'
         ]);
         if($request->filled('published_at')){
-            $validated["published_at"]=Carbon::parse($request->published_at)->formate('Y-m-d H:i:s');
+            $validated["published_at"]=Carbon::parse($request->published_at)->format('Y-m-d H:i:s');
         }
         $validated['slug'] = Str::slug($request->title);
         Post::create($validated);
@@ -78,10 +78,10 @@ class PostController extends Controller
             'published_at' => 'nullable|date'
         ]);
         if($request->filled('published_at')){
-            $validated["published_at"]=Carbon::parse($request->published_at)->formate('Y-m-d H:i:s');
+            $validated["published_at"]=Carbon::parse($request->published_at)->format('Y-m-d H:i:s');
         }
         $validated['slug'] = Str::slug($request->title);
-        $post::update($validated);
+        $post->update($validated);
         return redirect()->route('admin.posts.index')
         ->with('success','Post Updated Successfully');
     }
@@ -93,7 +93,7 @@ class PostController extends Controller
     {
        $post = Post::findOrFail($id);
 
-        $post::delete();
+        $post->delete();
         return redirect()->route('admin.posts.index')
         ->with('success','Post Deleted Successfully');
     }

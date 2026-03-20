@@ -37,9 +37,14 @@ php artisan optimize
 npx shadcn@latest add table
 npx shadcn@latest add pagination
 npm install sonner
+npx shadcn@latest add textarea 
 
 npm install ziggy-js
 
 
 php artisan make:migration add_timestamps_to_categories_table --table=categories
+php artisan migrate
+
+php artisan make:migration add_timestamps_to_posts_table --table=posts
+php artisan migrate
 php artisan migrate
