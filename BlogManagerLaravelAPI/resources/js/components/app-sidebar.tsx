@@ -52,7 +52,7 @@ export function AppSidebar() {
 : user?.role==='user'? [
     {
         title: 'Blogs',
-        href: '/posts',
+        href: '/user/posts',
         icon: BookOpen,
     },
 ] : [];
