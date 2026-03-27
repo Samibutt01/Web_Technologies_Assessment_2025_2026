@@ -26,7 +26,7 @@ Route::prefix('user')->name('user.')->group(function(){
     Route::resource('posts',UserController::class)->except(['show']);
     Route::get('posts/{id}',[UserController::class,'show'])->name('posts.show');
     Route::post('posts/{id}/comments',[UserController::class,'storeComment'])->name('posts.comments.store');
-    Route::delete('posts/{postId}/comments/{commentId}',[UserController::class,'destroyComment'])->name('posts.comments.destroy');
+Route::delete('posts/{postId}/comments/{commentId}',[UserController::class,'destroyComment'])->name('posts.comments.destroy');
 });
 require __DIR__.'/settings.php';
 

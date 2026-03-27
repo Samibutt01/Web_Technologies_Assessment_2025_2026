@@ -22,7 +22,7 @@ class UserController extends Controller
         ->when($request->filled('category') && $request->category != 'all', function ($query) use ($request) {
             $query->where('category_id', (int) $request->category);
         })
-        ->when($request->store === 'most_commented', function ($query) {
+        ->when($request->sort === 'most_commented', function ($query) {
             $query->orderBy('comments_count', 'desc');
         }, function ($query) {
         $query->latest();

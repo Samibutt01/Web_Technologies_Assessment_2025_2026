@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { router, Head } from '@inertiajs/react';
-import {route} from 'ziggy-js';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Button } from "@/components/ui/button";
