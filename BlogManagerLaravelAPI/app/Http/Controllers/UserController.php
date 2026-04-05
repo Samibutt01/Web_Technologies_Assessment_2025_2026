@@ -19,13 +19,13 @@ class UserController extends Controller
         ->when($request->search, function ($query, $search) {
             $query->where('title', 'like', "%{$search}%");
         })
-        ->when($request->filled('category') && $request->category != 'all', function ($query) use ($request) {
+        ->when($request->filled('category') && $request->category !== '' && $request->category !== 'all', function ($query) use ($request) {
             $query->where('category_id', (int) $request->category);
         })
         ->when($request->sort === 'most_commented', function ($query) {
-            $query->orderBy('comments_count', 'desc');
+            $query->orderByDesc('comments_count');
         }, function ($query) {
-        $query->latest();
+            $query->orderBy('created_at', 'desc');
         });
         $posts = $query->paginate(9)->through(function ($post) {
             return [

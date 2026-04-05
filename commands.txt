@@ -48,3 +48,8 @@ php artisan migrate
 php artisan make:migration add_timestamps_to_posts_table --table=posts
 php artisan migrate
 php artisan migrate
+
+
+ php artisan route:clear
+
+ php artisan make:middleware RoleMiddlewer

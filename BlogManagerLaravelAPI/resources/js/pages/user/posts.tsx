@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/select";
 import { toast, Toaster } from "sonner";
 import { CalendarDays, MessageSquare, Tag } from 'lucide-react';
+import user from '@/routes/user';
 
 interface Post {
     id: number;
@@ -92,47 +93,39 @@ export default function PostsPage({
     const [sortBy, setSortBy] = useState(filters?.sort ?? 'latest');
 
     const handleSearch = (value: string) => {
-        setSearch(value);
-        router.get(
-            route('user.posts.index'),
-            { search: value, category: selectedCategory, sort: sortBy },
-            { preserveState: true, preserveScroll: true }
-        );
+    setSearch(value);
+    router.get(
+        user.posts.index.url({ query: { search: value, category: selectedCategory, sort: sortBy } }),
+        {},
+        { preserveState: true, preserveScroll: true }
+    );
     };
 
     const handleCategoryChange = (value: string) => {
-        setSelectedCategory(value);
-        router.get(
-            route('user.posts.index'),
-            {
-                search,
-                category: value === 'all' ? '' : value,
-                sort: sortBy
-            },
-            {
-                preserveState: true,
-                preserveScroll: true,
-                replace: true
-            }
-        );
-    };
+    setSelectedCategory(value);
+    router.get(
+        user.posts.index.url({ query: { search, category: value === 'all' ? '' : value, sort: sortBy } }),
+        {},
+        { preserveState: true, preserveScroll: true, replace: true }
+    );
+};
 
     const handleSortChange = (value: string) => {
-        setSortBy(value);
-        router.get(
-            route('user.posts.index'),
-            { search, category: selectedCategory, sort: value },
-            { preserveState: true, preserveScroll: true }
-        );
-    };
+    setSortBy(value);
+    router.get(
+        user.posts.index.url({ query: { search, category: selectedCategory, sort: value } }),
+        {},
+        { preserveState: true, preserveScroll: true }
+    );
+};
 
     const handlePageChange = (page: number) => {
-        router.get(
-            route('user.posts.index'),
-            { page, search, category: selectedCategory, sort: sortBy },
-            { preserveState: true, preserveScroll: true }
-        );
-    };
+    router.get(
+        user.posts.index.url({ query: { page, search, category: selectedCategory, sort: sortBy } }),
+        {},
+        { preserveState: true, preserveScroll: true }
+    );
+};
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -212,7 +205,7 @@ export default function PostsPage({
                                 <Button
                                     variant="outline"
                                     className="w-full"
-                                    onClick={() => router.visit(route('user.posts.show', post.id))}
+                                    onClick={() => router.visit(user.posts.show.url(post.id))}
                                 >
                                     Read More
                                 </Button>

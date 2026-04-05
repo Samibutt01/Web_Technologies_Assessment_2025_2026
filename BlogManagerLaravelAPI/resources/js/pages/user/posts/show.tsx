@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { router, Head, usePage } from '@inertiajs/react';
-import {route} from 'ziggy-js';
+import user from '@/routes/user';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Button } from "@/components/ui/button";
@@ -63,7 +63,7 @@ export default function PostShow({ post }: PostShowProps) {
     const handleSubmitComment = (e: React.FormEvent) => {
         e.preventDefault();
 
-        router.post(route('user.posts.comments.store', post.id), {
+        router.post(user.posts.comments.store.url({ id: post.id }), {
             content: comment
         }, {
             onSuccess: () => {
@@ -78,7 +78,7 @@ export default function PostShow({ post }: PostShowProps) {
 
     const handleDeleteComment = (commentId: number) => {
         if (confirm('Are you sure you want to delete this comment?')) {
-            router.delete(route('user.posts.comments.destroy', [post.id, commentId]), {
+            router.delete(user.posts.comments.destroy.url({ postId: post.id, commentId: comment.id }), {
                 onSuccess: () => {
                     toast.success('Comment deleted successfully');
                 },
