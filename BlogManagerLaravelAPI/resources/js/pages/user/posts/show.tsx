@@ -78,7 +78,7 @@ export default function PostShow({ post }: PostShowProps) {
 
     const handleDeleteComment = (commentId: number) => {
         if (confirm('Are you sure you want to delete this comment?')) {
-            router.delete(user.posts.comments.destroy.url({ postId: post.id, commentId: comment.id }), {
+            router.delete(user.posts.comments.destroy.url({ postId: post.id, commentId: commentId  }), {
                 onSuccess: () => {
                     toast.success('Comment deleted successfully');
                 },
@@ -96,7 +96,7 @@ export default function PostShow({ post }: PostShowProps) {
             <div className="flex flex-col gap-4 p-4">
                 <div className="flex justify-between items-center mb-4">
                     <h1 className="text-2xl font-bold">{post.title}</h1>
-                    <Button variant="outline" onClick={() => router.visit(route('user.posts.index'))}>
+                    <Button variant="outline" onClick={() => router.visit(user.posts.index.url())}>
                         Back to Posts
                     </Button>
                 </div>

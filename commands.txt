@@ -52,4 +52,17 @@ php artisan migrate
 
  php artisan route:clear
 
+ npm uninstall ziggy-js
+
  php artisan make:middleware RoleMiddlewer
+
+
+ php artisan migrate:fresh
+
+ php artisan make:migration fix_comments_post_id_cascade
+
+
+
+ ALTER TABLE comments DROP FOREIGN KEY comments_post_id_foreign;
+ALTER TABLE comments ADD CONSTRAINT comments_post_id_foreign 
+    FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE;

@@ -15,7 +15,12 @@ Route::get('/', function () {
 })->name('home');
 
 Route::get('dashboard', function () {
-    return Inertia::render('dashboard');
+    $stats = [
+        'total_posts'      => \App\Models\Post::count(),
+        'total_categories' => \App\Models\Category::count(),
+        'total_comments'   => \App\Models\Comment::count(),
+    ];
+    return Inertia::render('dashboard', ['stats' => $stats]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::prefix('admin')->name('admin.')->middleware(['auth','role:admin'])->group(function(){
