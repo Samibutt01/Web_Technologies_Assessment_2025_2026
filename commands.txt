@@ -66,3 +66,35 @@ php artisan migrate
  ALTER TABLE comments DROP FOREIGN KEY comments_post_id_foreign;
 ALTER TABLE comments ADD CONSTRAINT comments_post_id_foreign 
     FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE;
+
+
+
+
+    For PEST Testing
+
+    One-Time Setup
+Step 1 — Create the test database
+CREATE DATABASE laravel_blog_db_test
+  CHARACTER SET utf8mb4
+  COLLATE utf8mb4_unicode_ci;
+  
+  Step 2 — Change in  phpunit.xml for testing database 
+  
+
+
+  composer install
+
+  Run ALL tests
+  php artisan test    or     ./vendor/bin/pest
+
+Run only Unit or Feature tests
+./vendor/bin/pest tests/Unit/
+./vendor/bin/pest tests/Feature/
+
+
+  Run a specific file
+./vendor/bin/pest tests/Unit/ModelTest.php
+./vendor/bin/pest tests/Feature/Admin/CategoryTest.php
+./vendor/bin/pest tests/Feature/Admin/PostTest.php
+./vendor/bin/pest tests/Feature/User/PostCommentTest.php
+./vendor/bin/pest tests/Feature/RoleAccessTest.php
